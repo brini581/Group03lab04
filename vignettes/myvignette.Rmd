@@ -22,16 +22,16 @@ library(Group03lab04)
 
 This method prints the call and the coefficients. 
 ```{r,echo=FALSE}
-linreg_mod <- linreg$new(Petal.Length~Sepal.Length, data=iris)
+linreg_mod <- linreg$new(Petal.Length~Species, data=iris)
 linreg_mod$print()
 ```
 
-<!-- ## plot() -->
+## plot()
 
-<!-- This method returns two plots.  -->
-<!-- ```{r,echo=FALSE} -->
-<!-- linreg_mod$plot() -->
-<!-- ``` -->
+This method returns two plots.
+```{r,echo=FALSE}
+linreg_mod$plot()
+```
 
 ## resid()
 

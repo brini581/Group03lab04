@@ -5,6 +5,7 @@
 #' @field fitted_value for fitted values
 #' @field df_name for input dataset name
 #' @field residu for residuals
+#' @field st_residu for standardized residuals
 #' @field degree_of_freedom for degree of freedom
 #' @field residual_variance for residual variance
 #' @field var_reg_coeff for variance of regression coefficients
@@ -12,6 +13,7 @@
 #' @field pt_value for p value
 #' @return none
 #' @importFrom stats model.matrix pt
+#' @importFrom ggplot2 ggplot aes
 #' @import methods
 #' @exportClass linreg
 #' @export linreg
@@ -26,6 +28,7 @@ linreg <- setRefClass("linreg",
                                       fitted_value = "matrix",
                                       df_name = "character",
                                       residu = "matrix",
+                                      st_residu="numeric",
                                       degree_of_freedom = "numeric",
                                       residual_variance = "matrix",
                                       var_reg_coeff = "matrix",
@@ -42,6 +45,7 @@ linreg <- setRefClass("linreg",
                               regcoeff <<- ((solve(t(X) %*% X)) %*% t(X)) %*% y
                               fitted_value <<- X %*% regcoeff
                               residu <<- y - fitted_value
+                              st_residu <<- sqrt(abs(as.numeric(residu)/sd(as.numeric(residu))))
                               degree_of_freedom <<- nrow(X) - ncol(X)
                               residual_variance <<- t(residu) %*% residu / degree_of_freedom
                               var_reg_coeff <<- residual_variance[1] * solve(t(X) %*% X)
@@ -57,7 +61,54 @@ linreg <- setRefClass("linreg",
                             print.default(coeff)
                           },
                           plot = function(){
-                            cat("The addition of a and b : ",a+b)
+                            df_1<- data.frame (residu  =as.vector(residu),
+                                               fitted_value =as.vector(fitted_value)
+                            )
+                            df_2<- data.frame (st_residu  =as.vector(st_residu),
+                                               fitted_value =as.vector(fitted_value)
+                            )
+                            
+                            residual_fitted <- ggplot(df_1,aes(x=fitted_value,y=residu))+
+                              
+                              geom_point(shape=1,size=4,stroke = 1)+
+                              #geom_text(nudge_x = 0.21, nudge_y = 0.01,check_overlap = T)+
+                              
+                              geom_hline(yintercept = 0, linetype='dotted',colour = 'grey') +
+                              
+                              stat_summary(fun=median, geom="line", colour = "red")+
+                              xlab("Fitted values\nlm(Petal.Length ~ Species)")+
+                              ylab("Residuals")+
+                              ggtitle("Residuals vs Fitted")+
+                              theme(plot.title = element_text(hjust = 0.5),
+                                    axis.line = element_line(colour = "black"),
+                                    panel.grid.major = element_blank(),
+                                    panel.grid.minor = element_blank(),
+                                    panel.background = element_blank(),
+                                    panel.border = element_rect(fill='transparent')
+                                    
+                              )
+                            
+                            standresidual_fitted <- ggplot(df_2,aes(x=fitted_value,y=st_residu))+
+                              
+                              geom_point(shape=1,size=4,stroke = 1)+
+                              #geom_text(nudge_x = 0.21, nudge_y = 0.01,check_overlap = T)+
+                              
+                              geom_hline(yintercept = 0, linetype='dotted',colour = 'grey') +
+                              
+                              stat_summary(fun=median, geom="line", colour = "red")+
+                              xlab("Fitted values\nlm(Petal.Length ~ Species)")+
+                              ylab("Standardized Residuals")+
+                              ggtitle("Scale - Location")+
+                              theme(plot.title = element_text(hjust = 0.5),
+                                    axis.line = element_line(colour = "black"),
+                                    panel.grid.major = element_blank(),
+                                    panel.grid.minor = element_blank(),
+                                    panel.background = element_blank(),
+                                    panel.border = element_rect(fill='transparent')
+                                    
+                              )
+                            plots <- list(residual_fitted,standresidual_fitted)
+                            plots
                           },
                           resid = function(){
                             print.default(as.vector(residu))
@@ -95,5 +146,3 @@ linreg <- setRefClass("linreg",
                           }
                         )
   )
-
-

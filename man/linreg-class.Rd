@@ -22,6 +22,8 @@ creates multiple linear regression model
 
 \item{\code{residu}}{for residuals}
 
+\item{\code{st_residu}}{for standardized residuals}
+
 \item{\code{degree_of_freedom}}{for degree of freedom}
 
 \item{\code{residual_variance}}{for residual variance}
