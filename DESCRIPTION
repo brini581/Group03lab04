@@ -1,10 +1,10 @@
 Package: Group03lab04
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.0.9000
+Title: Builds a multiple linear regression model
+Version: 1.0.0.0
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
+    c(person("Bright David", "NIYIBIZI", email = "brini581@student.liu.se", role = c("aut", "cre")),
+    person("Anna Basil","Jose", email = "annjo768@student.liu.se", role = c("aut", "ctb")))
+Description: This package builds a multiple linear regression model. It also has a few functions.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -12,3 +12,9 @@ RoxygenNote: 7.2.1
 Imports: 
     methods,
     stats
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr

@@ -1,0 +1,62 @@
+---
+title: "myvignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{myvignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r, echo=FALSE, eval=TRUE}
+library(Group03lab04)
+```
+
+## print()
+
+This method prints the call and the coefficients. 
+```{r,echo=FALSE}
+linreg_mod <- linreg$new(Petal.Length~Sepal.Length, data=iris)
+linreg_mod$print()
+```
+
+<!-- ## plot() -->
+
+<!-- This method returns two plots.  -->
+<!-- ```{r,echo=FALSE} -->
+<!-- linreg_mod$plot() -->
+<!-- ``` -->
+
+## resid()
+
+This method returns the residuals. 
+```{r,echo=FALSE}
+linreg_mod$resid()
+```
+
+## pred()
+
+This method returns the fitted values. 
+```{r,echo=FALSE}
+linreg_mod$pred()
+```
+
+## coef()
+
+This method returns the coefficients. 
+```{r,echo=FALSE}
+linreg_mod$coef()
+```
+
+## summary()
+
+This method returns the summary of the model created. 
+```{r,echo=FALSE}
+linreg_mod$summary()
+```
